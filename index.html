@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>중3 수학 · 이차함수 삼각비 통계</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--tx:#1d2433;--mu:#6b7385;--pr:#3b5bdb;--pl:#e7ecff;--ok:#2b9348;--okb:#e3f6e8;--no:#d6336c;--nob:#fde8ef;--bd:#e1e5ee;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151c;--card:#1b2030;--tx:#e8ebf3;--mu:#98a1b5;--pr:#8aa2ff;--pl:#26305a;--ok:#5fd07b;--okb:#17301f;--no:#ff7aa8;--nob:#3a1a28;--bd:#2c3348}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.65}
+main{max-width:760px;margin:0 auto;padding:18px 16px 60px}
+h1{font-size:22px;margin:8px 0 4px}h2{font-size:18px;margin:0 0 8px}
+.mu{color:var(--mu);font-size:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin:12px 0}
+.big{display:block;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px;margin:12px 0}
+.big:hover{border-color:var(--pr)}.big b{font-size:18px}
+button{font:inherit;color:inherit;cursor:pointer}
+.btn{background:var(--pr);color:#fff;border:0;border-radius:10px;padding:9px 16px}
+.btn.s{background:var(--pl);color:var(--pr)}
+.tabs{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}
+.tab{border:1px solid var(--bd);background:var(--card);border-radius:20px;padding:6px 16px}
+.tab.on{background:var(--pr);color:#fff;border-color:var(--pr)}
+table{border-collapse:collapse;width:100%;font-size:14px;text-align:center}th,td{border:1px solid var(--bd);padding:5px}
+.box{background:var(--pl);border-radius:10px;padding:8px 12px;margin:8px 0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bar{height:6px;background:var(--bd);border-radius:3px;margin:8px 0}.bar i{display:block;height:100%;background:var(--pr);border-radius:3px}
+.q{font-size:18px;margin:6px 0 14px}
+.ch{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:10px 14px;margin:8px 0}
+.ch.ok{background:var(--okb);border-color:var(--ok)}.ch.no{background:var(--nob);border-color:var(--no)}
+input[type=text]{font:inherit;width:100%;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx)}
+.fb{margin-top:12px;padding:10px 14px;border-radius:10px}.fb.ok{background:var(--okb)}.fb.no{background:var(--nob)}
+.g{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:10px}
+.g button{border:1px solid var(--bd);background:var(--card);border-radius:6px;padding:4px 0;font-size:12px}
+.g .ok{background:var(--okb)}.g .no{background:var(--nob)}.g .cu{outline:2px solid var(--pr)}
+.row{display:flex;gap:8px;margin-top:14px;justify-content:space-between}
+</style>
+</head>
+<body><main id="app"></main>
+<script>
+const $=s=>document.querySelector(s);
+let store={};try{store=JSON.parse(localStorage.getItem("m3")||"{}")}catch(e){}
+const save=()=>{try{localStorage.setItem("m3",JSON.stringify(store))}catch(e){}};
+const UN={q:"이차함수",t:"삼각비",s:"통계"};
+/* ---------- 개념 ---------- */
+const C={
+q:[["이차함수의 뜻","y=ax²+bx+c (a≠0)처럼 y가 x에 대한 이차식으로 나타나는 함수. 그래프는 <b>포물선</b>이고, 포물선의 대칭축을 <b>축</b>, 축과 만나는 점을 <b>꼭짓점</b>이라 한다."],
+["y=ax²의 그래프","꼭짓점 (0, 0), 축 x=0(y축).<br>a>0이면 아래로 볼록(최솟값 0), a<0이면 위로 볼록(최댓값 0). |a|가 클수록 폭이 좁아지고, y=ax²과 y=-ax²은 x축에 대하여 대칭."],
+["평행이동","y=ax²+q : y축 방향으로 q만큼 → 꼭짓점 (0, q)<br>y=a(x-p)² : x축 방향으로 p만큼 → 꼭짓점 (p, 0), 축 x=p<br><div class='box'>y=a(x-p)²+q : 꼭짓점 (p, q), 축 x=p</div>"],
+["일반형 → 표준형","y=ax²+bx+c를 <b>완전제곱식</b>으로 고쳐 y=a(x-p)²+q 꼴로 만든다.<br>예) y=x²-4x+7=(x-2)²+3 → 꼭짓점 (2, 3)<br>축의 방정식 x=-b/2a, y절편 c."],
+["최댓값과 최솟값","a>0이면 x=p에서 최솟값 q, a<0이면 x=p에서 최댓값 q (꼭짓점의 y좌표)."],
+["그래프와 계수의 부호","a : 아래로 볼록이면 a>0, 위로 볼록이면 a<0<br>b : 축이 y축의 왼쪽이면 a·b 같은 부호, 오른쪽이면 다른 부호<br>c : y절편의 부호"],
+["이차함수의 식 구하기","꼭짓점 (p, q)와 다른 한 점 → y=a(x-p)²+q<br>x절편 m, n과 다른 한 점 → y=a(x-m)(x-n)<br>서로 다른 세 점 → y=ax²+bx+c"]],
+t:[["삼각비의 뜻","∠C=90°인 직각삼각형 ABC에서 (a=BC, b=CA, c=AB)<div class='box'>sin A = a/c (높이/빗변)<br>cos A = b/c (밑변/빗변)<br>tan A = a/b (높이/밑변)</div>기준각이 바뀌면 높이와 밑변이 바뀐다."],
+["피타고라스 정리","a²+b²=c². 자주 나오는 세 변: (3, 4, 5), (5, 12, 13), (8, 15, 17), (7, 24, 25), (20, 21, 29) 와 그 배수."],
+["특수각의 삼각비","<table><tr><th></th><th>30°</th><th>45°</th><th>60°</th></tr><tr><th>sin</th><td>1/2</td><td>√2/2</td><td>√3/2</td></tr><tr><th>cos</th><td>√3/2</td><td>√2/2</td><td>1/2</td></tr><tr><th>tan</th><td>√3/3</td><td>1</td><td>√3</td></tr></table>"],
+["0°, 90°의 삼각비","sin 0°=0, cos 0°=1, tan 0°=0<br>sin 90°=1, cos 90°=0, tan 90°는 정할 수 없다."],
+["길이 구하기","한 변과 각이 주어지면 삼각비로 다른 변을 구한다. 예) ∠A=30°, 빗변 AB=10 → BC=10·sin 30°=5<br>올려본각·내려본각: 눈높이를 더하거나 빼는 것에 주의 (45°이면 높이=수평거리)."],
+["도형의 넓이","삼각형: S=½·a·b·sin C (C는 a, b의 끼인각, 둔각이면 sin(180°-C))<br>평행사변형: S=a·b·sin θ<br>정삼각형(한 변 a): 높이 √3a/2, 넓이 √3a²/4<br>정사각형(한 변 a): 대각선 √2a"]],
+s:[["대푯값과 산포도","대푯값: 평균, 중앙값, 최빈값. <b>산포도</b>는 변량이 흩어진 정도를 나타내는 값으로 분산, 표준편차가 있다."],
+["편차","편차 = 변량 − 평균. <div class='box'>편차의 총합은 항상 0</div>"],
+["분산과 표준편차","<div class='box'>분산 = (편차)²의 평균<br>표준편차 = √분산</div>분산 = (변량²의 평균) − (평균)²<br>표준편차가 작을수록 변량이 평균 가까이에 모여 있다(고르다)."],
+["변량의 변환","변량 x의 평균 m, 분산 v, 표준편차 s일 때 ax+b는<br>평균 am+b, 분산 a²v, 표준편차 |a|s (b는 표준편차에 영향 없음)"],
+["산점도와 상관관계","두 변량의 순서쌍을 좌표평면에 나타낸 그림이 산점도.<br>양의 상관관계: 한쪽이 증가하면 다른 쪽도 증가(오른쪽 위로)<br>음의 상관관계: 한쪽이 증가하면 다른 쪽은 감소(오른쪽 아래로)<br>상관관계 없음: 점이 흩어져 있어 경향이 없음. 점이 한 직선에 가까울수록 강한 상관관계."]]};
+/* ---------- 문제 생성 ---------- */
+function mul(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function mk(seed){const f=mul(seed);const o={ri:(l,h)=>l+Math.floor(f()*(h-l+1)),nz:(l,h)=>{let v;do v=l+Math.floor(f()*(h-l+1));while(!v);return v},pick:a=>a[Math.floor(f()*a.length)],sh:a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(f()*(i+1));const x=a[i];a[i]=a[j];a[j]=x}return a}};return o}
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+const fr=(n,d)=>{if(d<0){n=-n;d=-d}const g=gcd(Math.abs(n),d)||1;n/=g;d/=g;return d==1?""+n:n+"/"+d};
+const co=a=>a==1?"":a==-1?"-":""+a;
+const fx=(a,p,q)=>"y="+co(a)+(p==0?"x²":"(x"+(p>0?"-":"+")+Math.abs(p)+")²")+(q?(q>0?"+":"-")+Math.abs(q):"");
+const bt=b=>b?(b>0?"+":"-")+(Math.abs(b)==1?"":Math.abs(b))+"x":"";
+const poly=(a,b,c)=>"y="+co(a)+"x²"+bt(b)+(c?(c>0?"+":"-")+Math.abs(c):"");
+const lf=m=>m==0?"x":"(x"+(m>0?"-":"+")+Math.abs(m)+")";
+const rad=(c,r)=>(c==1?"":c)+"√"+r;
+const P=(x,y)=>"("+x+", "+y+")";
+const QD=[
+R=>{const a=R.nz(-3,3),p=R.nz(-5,5),q=R.nz(-6,6);return{q:"이차함수 "+fx(a,p,q)+"의 그래프의 꼭짓점의 좌표는?",a:P(p,q),ds:[P(-p,q),P(p,-q),P(q,p),P(-p,-q)],h:"(예: (1, -2))",e:"y=a(x-p)²+q의 꼭짓점은 (p, q)"}},
+R=>{const a=R.nz(-3,3),p=R.nz(-6,6),q=R.ri(-5,5);return{q:"이차함수 "+fx(a,p,q)+"의 그래프의 축의 방정식은?",a:"x="+p,ds:["x="+-p,"x="+q,"y="+p,"x="+-q],h:"(예: x=2)",e:"축은 꼭짓점을 지나는 직선 x=p"}},
+R=>{const a=R.nz(-3,3),p=R.ri(-4,4),q=R.ri(-4,4),m=R.nz(-4,4),n=R.nz(-4,4);return{q:"이차함수 "+fx(a,p,q)+"의 그래프를 x축의 방향으로 "+m+"만큼, y축의 방향으로 "+n+"만큼 평행이동한 그래프의 꼭짓점의 좌표는?",a:P(p+m,q+n),ds:[P(p-m,q+n),P(p+m,q-n),P(p+n,q+m),P(p-m,q-n)],h:"(예: (1, -2))",e:"꼭짓점 (p, q)가 (p+m, q+n)으로 이동"}},
+R=>{const a=R.pick([1,2,-1,-2,3]),p=R.nz(-5,5),q=R.nz(-8,8);return{q:"이차함수 "+poly(a,-2*a*p,a*p*p+q)+"의 그래프의 꼭짓점의 좌표는?",a:P(p,q),ds:[P(-p,q),P(p,-q),P(q,p),P(-p,-q)],h:"(예: (1, -2))",e:"완전제곱식으로 고치면 "+fx(a,p,q)}},
+R=>{const a=R.nz(-4,4),p=R.nz(-5,5),q=R.ri(-8,8);return{q:"이차함수 "+fx(a,p,q)+"의 "+(a>0?"최솟값":"최댓값")+"은?",a:""+q,ds:[""+(q+1),""+(q-1),""+p,""+-q,""+-p],e:"꼭짓점의 y좌표 q"}},
+R=>{const a=R.nz(-3,3),p=R.nz(-4,4),q=R.ri(-6,6);return{q:"이차함수 "+fx(a,p,q)+"의 그래프가 y축과 만나는 점의 y좌표는?",a:""+(a*p*p+q),e:"x=0을 대입: "+a+"·"+p*p+"+"+q}},
+R=>{const a=R.nz(-4,4),m=R.nz(-4,4);return{q:"이차함수 y=ax²의 그래프가 점 ("+m+", "+a*m*m+")을 지날 때, 상수 a의 값은?",a:""+a,e:"x="+m+"을 대입하면 "+a*m*m+"=a·"+m*m}},
+R=>{const a=R.nz(-3,3),p=R.nz(-4,4),q=R.ri(-5,5),m=p+R.nz(-3,3);return{q:"꼭짓점의 좌표가 ("+p+", "+q+")이고 점 ("+m+", "+(a*(m-p)*(m-p)+q)+")을 지나는 이차함수 y=a(x-p)²+q에서 상수 a의 값은?",a:""+a,e:"y=a(x-p)²+q에 점을 대입해 a를 구한다"}},
+R=>{const a=R.nz(-3,3),m=R.ri(-6,6);let n;do n=R.ri(-6,6);while(n==m);return{q:"이차함수 y="+co(a)+lf(m)+lf(n)+"의 그래프가 x축과 만나는 두 점의 x좌표의 합은?",a:""+(m+n),e:"x절편은 "+m+", "+n}},
+R=>{const a=R.nz(-3,3),p=R.nz(-5,5),c=R.ri(-6,6);return{q:"이차함수 "+poly(a,-2*a*p,c)+"의 그래프의 축의 방정식이 x=k일 때, k의 값은?",a:""+p,e:"k=-b/2a="+-(-2*a*p)+"/"+2*a}},
+R=>{const b=R.nz(-6,6),c=R.nz(-8,8),m=R.nz(-4,4);return{q:"이차함수 y=x²"+bt(b)+"+c의 그래프가 점 ("+m+", "+(m*m+b*m+c)+")을 지날 때, 상수 c의 값은?",a:""+c,e:"점의 좌표를 대입하여 c를 구한다"}},
+R=>{const p=R.nz(-5,5),c=R.ri(-6,10);return{q:"이차함수 "+poly(1,-2*p,c)+"의 최솟값은?",a:""+(c-p*p),e:"(x-"+p+")²+"+(c-p*p)+" 꼴로 고친다"}}];
+const TR=[[3,4,5],[5,12,13],[8,15,17],[7,24,25],[20,21,29]];
+const SP={sin:{30:[1,"",2],45:[1,"√2",2],60:[1,"√3",2]},cos:{30:[1,"√3",2],45:[1,"√2",2],60:[1,"",2]},tan:{30:[1,"√3",3],45:[1,"",1],60:[1,"√3",1]}};
+const spv=(c,r)=>r?(c==1?"":c)+r:""+c;
+const TD=[
+R=>{const t=R.pick(TR),k=R.ri(1,3),a=t[0]*k,b=t[1]*k,c=t[2]*k,A=R.pick([0,1]),f=R.pick(["sin","cos","tan"]);const x=A?b:a,y=A?a:b;const v=f=="sin"?fr(x,c):f=="cos"?fr(y,c):fr(x,y);const all=[[a,c],[b,c],[a,b],[b,a]].map(z=>fr(z[0],z[1]));return{q:"∠C=90°인 직각삼각형 ABC에서 BC="+a+", CA="+b+"일 때, "+f+" "+(A?"B":"A")+"의 값은? (기약분수)",a:v,ds:all.filter(z=>z!=v),h:"(예: 3/5)",e:"빗변 AB="+c+" 이므로 "+f+(A?"B":"A")+"="+v}},
+R=>{const t=R.pick(TR),f=R.pick(["cos","tan"]),g=R.pick(["A","B"]);const [a,b,c]=g=="A"?t:[t[1],t[0],t[2]];const v=f=="cos"?fr(b,c):fr(a,b);return{q:"∠C=90°인 직각삼각형 ABC에서 sin "+g+"="+fr(a,c)+"일 때, "+f+" "+g+"의 값은? (기약분수)",a:v,ds:[fr(a,c),fr(b,c),fr(a,b),fr(b,a),fr(c,a)].filter(z=>z!=v),h:"(예: 3/5)",e:"나머지 변 "+b+"를 피타고라스 정리로 구한다"}},
+R=>{const n1=R.pick(["sin 30°","cos 60°","tan 45°","sin 90°","cos 0°","cos 90°","sin 0°","tan 0°"]),n2=R.pick(["sin 30°","cos 60°","tan 45°","sin 90°","cos 0°","cos 90°","tan 0°"]);if(n1==n2)return null;const V={"sin 30°":1,"cos 60°":1,"tan 45°":2,"sin 90°":2,"cos 0°":2,"cos 90°":0,"sin 0°":0,"tan 0°":0};const c1=R.ri(1,4),c2=R.ri(1,4),s=R.pick([1,-1]);const v=c1*V[n1]+s*c2*V[n2];return{q:co(c1)+n1+(s>0?" + ":" − ")+co(c2)+n2+"의 값은?",a:fr(v,2),ds:[fr(v+1,2),fr(v-1,2),fr(v+2,2),fr(-v,2),fr(v+3,2)],h:"(정수 또는 기약분수)",e:"삼각비의 값을 각각 대입하여 계산"}},
+R=>{const f=R.pick(["sin","cos","tan"]),g=R.pick([30,45,60]),[o,r,d]=SP[f][g],k=d*R.ri(1,6),c=k/d*o;return{q:k+" × "+f+" "+g+"°의 값은?",a:spv(c,r),ds:[spv(c+1,r),spv(Math.max(c-1,1),r),spv(c,r=="√3"?"√2":"√3"),spv(c*2,r),spv(c,"")].filter(z=>z!=spv(c,r)),h:"(예: 3√3)",e:f+" "+g+"° 값에 "+k+"를 곱한다"}},
+R=>{const k=R.ri(1,12),w=R.ri(0,6);const L=[["∠C=90°인 직각삼각형 ABC에서 ∠A=30°, AB="+2*k+"일 때, BC의 길이는?",k],["∠C=90°인 직각삼각형 ABC에서 ∠A=60°, AB="+2*k+"일 때, AC의 길이는?",k],["∠C=90°인 직각삼각형 ABC에서 ∠A=45°, AB="+k+"√2일 때, BC의 길이는?",k],["∠C=90°인 직각삼각형 ABC에서 ∠A=45°, AC="+k+"일 때, BC의 길이는?",k],["∠C=90°인 직각삼각형 ABC에서 ∠A=60°, AC="+k+"일 때, AB의 길이는?",2*k],["∠C=90°인 직각삼각형 ABC에서 ∠A=30°, AC="+k+"√3일 때, BC의 길이는?",k],["∠C=90°인 직각삼각형 ABC에서 ∠A=30°, AB="+2*k+"일 때, AC의 길이는? (근호 사용)",rad(k,3)]];const z=L[w];return{q:z[0],a:""+z[1],h:w==6?"(예: 3√3)":"",e:"특수각의 삼각비를 이용한다",ds:w==6?[rad(k,2),rad(2*k,3),""+k,rad(k+1,3)]:undefined}},
+R=>{const d=R.ri(5,60),e=R.pick([1,1.5,2]),w=R.pick([0,1]);return w?{q:"건물 옥상에서 수평거리 "+d+"m 떨어진 지면의 한 점을 내려본각 45°로 보았다. 건물의 높이는? (단위: m, 눈높이 무시)",a:""+d,e:"tan 45°=1 이므로 높이=수평거리"}:{q:"건물에서 수평거리 "+d+"m 떨어진 곳에서 건물 꼭대기를 올려본각 45°로 보았다. 눈높이가 "+e+"m일 때, 건물의 높이는? (단위: m)",a:""+(d+e),e:"높이=d·tan 45°+눈높이="+d+"+"+e}},
+R=>{const w=R.pick([0,1]);if(w){const a=R.ri(2,12),b=2*R.ri(1,8),C=R.pick([30,150,90]);return{q:"두 변의 길이가 "+a*2+", "+b+"이고 그 끼인각의 크기가 "+C+"°인 삼각형의 넓이는?",a:""+(C==90?a*2*b/2:a*b/2),e:"S=½·a·b·sin "+C+"°"}}const a=R.ri(2,12),b=2*R.ri(1,8),C=R.pick([30,150]);return{q:"이웃한 두 변의 길이가 "+a+", "+b+"이고 그 끼인각의 크기가 "+C+"°인 평행사변형의 넓이는?",a:""+a*b/2,e:"S=a·b·sin θ"}},
+R=>{const k=R.ri(1,9),w=R.ri(0,3);const L=[["한 변의 길이가 "+2*k+"인 정삼각형의 높이는? (근호 사용)",rad(k,3),[rad(k,2),rad(2*k,3),""+k,rad(k+1,3)]],["한 변의 길이가 "+k+"인 정사각형의 대각선의 길이는? (근호 사용)",rad(k,2),[rad(k,3),rad(2*k,2),""+k,rad(k+1,2)]],["한 변의 길이가 "+2*k+"인 정삼각형의 넓이는? (근호 사용)",rad(k*k,3),[rad(k*k,2),rad(2*k*k,3),rad(k,3),rad(k*k+1,3)]],["한 변의 길이가 "+2*k+"인 정삼각형의 높이의 제곱은?",""+3*k*k,undefined]];const z=L[w];return{q:z[0],a:z[1],ds:z[2],h:w<3?"(예: 3√3)":"",e:"정삼각형 높이 √3a/2, 정사각형 대각선 √2a"}}];
+function gd(R,n,sq){for(let t=0;t<500;t++){const d=Array.from({length:n},()=>R.ri(-6,6));const s=d.reduce((x,y)=>x+y,0),ss=d.reduce((x,y)=>x+y*y,0);if(s==0&&ss>0&&ss%n==0&&(!sq||Number.isInteger(Math.sqrt(ss/n))))return d}return null}
+const POS=["키와 몸무게","공부 시간과 시험 성적","기온과 아이스크림 판매량","발 크기와 키","독서량과 어휘력","운동 시간과 소모 열량","자동차 속도와 제동 거리","광고비와 매출액","물 사용량과 수도 요금"],NEG=["산의 높이와 기온","결석 일수와 성적","겨울철 기온과 난방비","스마트폰 사용 시간과 수면 시간","자동차 무게와 연비","양초가 타는 시간과 남은 양초의 길이","전기 사용 시간과 배터리 잔량","출발 후 시간과 목적지까지 남은 거리","게임 시간과 독서 시간"],NON=["키와 수학 성적","신발 크기와 국어 점수","생일의 달과 키","혈액형과 달리기 기록","몸무게와 영어 성적","출석 번호와 키","머리카락 길이와 수학 성적","집에서 학교까지 거리와 체육 성적","이름의 글자 수와 몸무게"];
+const SD=[
+R=>{const n=R.pick([4,5]),d=gd(R,n);if(!d)return null;const m=R.ri(6,20);return{q:"변량 "+R.sh(d.map(x=>x+m)).join(", ")+"의 평균은?",a:""+m,e:"변량의 합 ÷ "+n}},
+R=>{const n=R.pick([4,5]),d=gd(R,n);if(!d)return null;const m=R.ri(6,20),v=d.reduce((x,y)=>x+y*y,0)/n;return{q:"변량 "+R.sh(d.map(x=>x+m)).join(", ")+"의 분산은?",a:""+v,ds:[""+(v+1),""+(v-1),""+(v+2),""+(v*n),""+Math.sqrt(v).toFixed(1)].filter(z=>z!="NaN"),e:"평균 "+m+", 편차²의 평균 = "+v}},
+R=>{const n=R.pick([4,5]),d=gd(R,n,1);if(!d)return null;const m=R.ri(6,20),v=d.reduce((x,y)=>x+y*y,0)/n;return{q:"변량 "+R.sh(d.map(x=>x+m)).join(", ")+"의 표준편차는?",a:""+Math.sqrt(v),ds:[""+v,""+(Math.sqrt(v)+1),""+(Math.sqrt(v)*2),""+(Math.sqrt(v)-1||3)],e:"분산 "+v+"의 양의 제곱근"}},
+R=>{const n=R.pick([5,6]);const d=Array.from({length:n-1},()=>R.nz(-5,5));const x=-d.reduce((a,b)=>a+b,0);const i=R.ri(0,n-1);const s=d.slice();s.splice(i,0,"x");return{q:n+"개의 변량의 편차가 "+s.join(", ")+"일 때, x의 값은?",a:""+x,e:"편차의 총합은 0"}},
+R=>{const n=R.pick([4,5]),m=R.ri(5,12),o=Array.from({length:n-1},()=>R.ri(2,15)),x=n*m-o.reduce((a,b)=>a+b,0);if(x<1)return null;const s=o.slice();s.splice(R.ri(0,n-1),0,"x");return{q:n+"개의 변량 "+s.join(", ")+"의 평균이 "+m+"일 때, x의 값은?",a:""+x,e:"합이 "+n*m+" 이어야 한다"}},
+R=>{const m=R.ri(3,12),v=R.ri(1,15);return{q:"5개의 변량의 평균이 "+m+"이고 변량의 제곱의 평균이 "+(m*m+v)+"일 때, 분산은?",a:""+v,e:"분산=(제곱의 평균)−(평균)²"}},
+R=>{const s=R.ri(2,15),w=R.pick([0,1]);return w?{q:"표준편차가 "+s+"일 때, 분산은?",a:""+s*s,e:"분산=(표준편차)²"}:{q:"분산이 "+s*s+"일 때, 표준편차는?",a:""+s,e:"표준편차=√분산"}},
+R=>{const m=R.ri(3,20),s=R.ri(1,8),a=R.nz(-4,4),b=R.nz(-9,9),w=R.ri(0,2);const L=[["평균",a*m+b],["표준편차",Math.abs(a)*s],["분산",a*a*s*s]];return{q:"변량 x의 평균이 "+m+", 표준편차가 "+s+"일 때, 변량 "+co(a)+"x"+(b>0?"+":"-")+Math.abs(b)+"의 "+L[w][0]+"은?",a:""+L[w][1],e:"평균 am+b, 표준편차 |a|s, 분산 a²s²"}},
+R=>{const st=R.ri(1,5)*10,df=R.pick([10,20]);for(let t=0;t<200;t++){const f=Array.from({length:4},()=>R.ri(1,6));const tot=f.reduce((a,b)=>a+b,0),sm=f.reduce((a,b,i)=>a+b*(st+df*i),0);if(sm%tot==0)return{q:"변량 "+[0,1,2,3].map(i=>st+df*i).join(", ")+"의 도수가 차례로 "+f.join(", ")+"일 때, 평균은?",a:""+sm/tot,e:"(변량×도수)의 합 ÷ 도수의 총합 = "+sm+"/"+tot}}return null},
+(R,m)=>{const k=R.pick(["양","음","없음"]);const L={양:POS,음:NEG,없음:NON};if(m=="sub"){const it=R.pick(L[k]);return{q:"'"+it+"' 사이의 상관관계는?",a:k,h:"(양 / 음 / 없음 중 하나로 입력)",e:"두 변량의 증가·감소 경향을 생각한다"}}const a=R.pick(L[k]);const o=["양","음","없음"].filter(z=>z!=k);const ds=R.sh(L[o[0]]).slice(0,2).concat(R.sh(L[o[1]]).slice(0,1));return{q:"다음 중 "+(k=="없음"?"상관관계가 없는 것":k+"의 상관관계가 있는 것")+"은?",a:a,ds:ds,e:"변량의 증가·감소 경향으로 판단"}},
+(R,m)=>{const s1=R.ri(2,9),s2=R.ri(2,9);if(s1==s2)return null;const W=s1<s2?"A":"B";return m=="sub"?{q:"A반 성적의 표준편차는 "+s1+"점, B반은 "+s2+"점이다. 성적이 더 고르게 분포한 반은?",a:W,h:"(A / B 중 하나)",e:"표준편차가 작을수록 고르다"}:{q:"A반 성적의 표준편차는 "+s1+"점, B반은 "+s2+"점이다. 성적이 더 고르게 분포한 반은?",a:W+"반",ds:[(W=="A"?"B":"A")+"반","두 반이 같다","알 수 없다"],e:"표준편차가 작을수록 고르다"}}];
+const TP={q:QD,t:TD,s:SD};
+const bank={};
+function autoDs(a){const n=+a;if(!isFinite(n))return[];const c=[n+1,n-1,n+2,n-2,2*n,-n,n+10,n-10,n/2,n+3,n-3];return c.filter(x=>x!=n&&Number.isFinite(x)&&(n<0||x>=0)).map(x=>""+Math.round(x*100)/100)}
+function getBank(u,m){const key=u+m;if(bank[key])return bank[key];const R0=u=="q"?11:u=="t"?23:37,out=[],seen=new Set();let s=0;while(out.length<100&&s<30000){const R=mk(R0*1000+(m=="mc"?1:2)*100003+s*7919);const T=TP[u],t=T[s%T.length];s++;let p;try{p=t(R,m)}catch(e){continue}if(!p||seen.has(p.q))continue;if(m=="mc"){let ds=[...new Set((p.ds||autoDs(p.a)).filter(z=>z!==p.a&&z!=="NaN"))];ds=R.sh(ds).slice(0,4);if(ds.length<3)continue;p.c=R.sh([p.a].concat(ds))}seen.add(p.q);out.push(p)}return bank[key]=out}
+/* ---------- 채점 ---------- */
+const norm=s=>(""+s).replace(/\s/g,"").replace(/루트|sqrt/gi,"√").replace(/[（]/g,"(").replace(/[）]/g,")").replace(/−/g,"-");
+const num=s=>{let m=s.match(/^(-?\d+(?:\.\d+)?)\/(\d+)$/);if(m)return +m[1]/+m[2];return /^-?\d+(\.\d+)?$/.test(s)?+s:NaN};
+const eq=(u,a)=>{const x=norm(u),y=norm(a);if(x==y)return true;const p=num(x),q=num(y);return !isNaN(p)&&!isNaN(q)&&Math.abs(p-q)<1e-9};
+/* ---------- 화면 ---------- */
+const prog=(u,m)=>store[u+m]||(store[u+m]={i:0,a:{}});
+const cnt=(u,m)=>{const p=prog(u,m),v=Object.values(p.a);return[v.length,v.filter(x=>x.ok).length]};
+let V={s:"home",u:"q",m:"mc"};
+const esc=s=>(""+s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+function go(s,u,m){V.s=s;if(u)V.u=u;if(m)V.m=m;render()}
+function render(){const A=$("#app");let h="";
+if(V.s=="home"){h="<h1>중3 수학</h1><div class='mu'>2015 개정 교육과정 · 천재교육 기준 | 이차함수 · 삼각비 · 통계</div><button class='big' onclick=\"go('concept')\"><b>📘 개념 정리</b><br><span class='mu'>단원별 핵심 개념과 공식을 한눈에</span></button><button class='big' onclick=\"go('setup')\"><b>✏️ 문제풀이</b><br><span class='mu'>단원마다 객관식 100문제 · 주관식 100문제 (풀던 곳에서 이어서 풀기)</span></button>"}
+else if(V.s=="concept"){h="<div class='top'><h2>📘 개념 정리</h2><button class='btn s' onclick=\"go('home')\">처음으로</button></div><div class='tabs'>"+Object.keys(UN).map(k=>"<button class='tab "+(V.u==k?"on":"")+"' onclick=\"go('concept','"+k+"')\">"+UN[k]+"</button>").join("")+"</div>"+C[V.u].map(c=>"<div class='card'><h2>"+c[0]+"</h2>"+c[1]+"</div>").join("")}
+else if(V.s=="setup"){h="<div class='top'><h2>✏️ 문제풀이</h2><button class='btn s' onclick=\"go('home')\">처음으로</button></div>"+Object.keys(UN).map(k=>"<div class='card'><h2>"+UN[k]+"</h2>"+["mc","sub"].map(m=>{const c=cnt(k,m);return"<div class='top' style='margin:8px 0'><span>"+(m=="mc"?"객관식":"주관식")+" <span class='mu'>"+c[0]+"/100 풀이 · 정답 "+c[1]+"</span></span><span><button class='btn' onclick=\"start('"+k+"','"+m+"')\">"+(c[0]?"이어서":"시작")+"</button> "+(c[0]?"<button class='btn s' onclick=\"reset('"+k+"','"+m+"')\">초기화</button>":"")+"</span></div>"}).join("")+"</div>").join("")}
+else{const B=getBank(V.u,V.m),p=prog(V.u,V.m),i=p.i,it=B[i],r=p.a[i],c=cnt(V.u,V.m);
+h="<div class='top'><button class='btn s' onclick=\"go('setup')\">← 나가기</button><span class='mu'>"+UN[V.u]+" · "+(V.m=="mc"?"객관식":"주관식")+" · 정답 "+c[1]+"/"+c[0]+"</span></div><div class='bar'><i style='width:"+(c[0]/B.length*100)+"%'></i></div><div class='card'><div class='mu'>"+(i+1)+" / "+B.length+"</div><div class='q'>"+esc(it.q)+"</div>";
+if(V.m=="mc")h+=it.c.map((x,k)=>"<button class='ch "+(r?(x===it.a?"ok":r.v===x?"no":""):"")+"' onclick='pick("+k+")'>"+"①②③④⑤"[k]+" "+esc(x)+"</button>").join("");
+else h+="<input type='text' id='in' autocomplete='off' placeholder='답 입력 "+esc(it.h||"")+"' value='"+(r?esc(r.v):"")+"' "+(r?"disabled":"")+" onkeydown=\"if(event.key=='Enter')chk()\">"+(r?"":"<div class='row'><span></span><button class='btn' onclick='chk()'>정답 확인</button></div>");
+if(r)h+="<div class='fb "+(r.ok?"ok":"no")+"'><b>"+(r.ok?"정답입니다! 🎉":"오답입니다.")+"</b> 정답: "+esc(it.a)+"<br><span class='mu'>"+esc(it.e||"")+"</span></div>";
+h+="<div class='row'><button class='btn s' onclick='mv(-1)' "+(i==0?"disabled":"")+">← 이전</button><button class='btn' onclick='mv(1)' "+(i==B.length-1?"disabled":"")+">다음 →</button></div></div><details><summary>번호 이동</summary><div class='g'>"+B.map((_,k)=>"<button class='"+(p.a[k]?(p.a[k].ok?"ok":"no"):"")+(k==i?" cu":"")+"' onclick='jmp("+k+")'>"+(k+1)+"</button>").join("")+"</div></details>"}
+A.innerHTML=h;window.scrollTo(0,0);if(V.s=="quiz"&&V.m=="sub"&&!prog(V.u,V.m).a[prog(V.u,V.m).i]){const e=$("#in");if(e)e.focus()}}
+function start(u,m){V.u=u;V.m=m;V.s="quiz";render()}
+function reset(u,m){if(confirm("이 문제 세트의 기록을 초기화할까요?")){delete store[u+m];save();render()}}
+function mv(d){const p=prog(V.u,V.m),n=getBank(V.u,V.m).length;p.i=Math.min(n-1,Math.max(0,p.i+d));save();render()}
+function jmp(k){prog(V.u,V.m).i=k;save();render()}
+function pick(k){const p=prog(V.u,V.m),it=getBank(V.u,V.m)[p.i];if(p.a[p.i])return;const v=it.c[k];p.a[p.i]={v:v,ok:v===it.a};save();render()}
+function chk(){const p=prog(V.u,V.m),it=getBank(V.u,V.m)[p.i],v=$("#in").value.trim();if(!v||p.a[p.i])return;p.a[p.i]={v:v,ok:eq(v,it.a)};save();render()}
+render();
+</script>
+</body>
+</html>
